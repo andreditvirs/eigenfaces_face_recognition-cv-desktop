@@ -11,14 +11,14 @@ class RecogEigenFaces:
     def __init__(self):
         cascPath = "haarcascade_frontalface_default.xml"
         self.face_cascade = cv2.CascadeClassifier(cascPath)
-        self.out_dir = folder_path+'dataset_haar\\'
+        self.face_dir = folder_path+'dataset_haar\\'
         self.model = cv2.face.EigenFaceRecognizer_create()
         self.face_names = []
 
     def load_trained_data(self):
         names = {}
         key = 0
-        for (subdirs, dirs, files) in os.walk(self.out_dir):
+        for (subdirs, dirs, files) in os.walk(self.face_dir):
             for subdir in dirs:
                 names[key] = subdir
                 key += 1
@@ -26,21 +26,29 @@ class RecogEigenFaces:
         self.model.read(folder_path+'eigen_trained_data.xml')
 
     def show_video(self):
-        video_capture = cv2.VideoCapture(0)
+        video_capture = cv2.VideoCapture("test_video.mp4")
+        frame_width = int(video_capture.get(3))
+        frame_height = int(video_capture.get(4))
+        out = cv2.VideoWriter('output.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
         while True:
             ret, frame = video_capture.read()
-            inImg = np.array(frame)
-            outImg, self.face_names = self.process_image(inImg)
-            cv2.imshow('Face Recognition', outImg)
+            if ret == True:
+                inImg = np.array(frame)
+                outImg, self.face_names = self.process_image(inImg)
+                cv2.imshow('Face Recognition', outImg)
+                out.write(outImg)
 
-            # Jika selesai tekan 'q'
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                video_capture.release()
-                cv2.destroyAllWindows()
+                # Jika selesai tekan 'q'
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    video_capture.release()
+                    out.release()
+                    cv2.destroyAllWindows()
+                    return
+            else:
                 return
 
     def process_image(self, inImg):
-        frame = cv2.flip(inImg,1)
+        frame = cv2.flip(inImg, 1)
         resized_width, resized_height = (100, 100)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)        
         gray_resized = cv2.resize(gray, (int(gray.shape[1]/RESIZE_FACTOR), int(gray.shape[0]/RESIZE_FACTOR)))        
