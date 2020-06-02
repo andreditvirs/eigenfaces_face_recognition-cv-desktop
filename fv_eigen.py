@@ -12,6 +12,7 @@ class RecogEigenFaces:
         cascPath = "haarcascade_frontalface_default.xml"
         self.face_cascade = cv2.CascadeClassifier(cascPath)
         self.face_dir = folder_path+'dataset_haar\\'
+        self.video_file=sys.argv[1]
         self.model = cv2.face.EigenFaceRecognizer_create()
         self.face_names = []
 
@@ -26,7 +27,7 @@ class RecogEigenFaces:
         self.model.read(folder_path+'eigen_trained_data.xml')
 
     def show_video(self):
-        video_capture = cv2.VideoCapture("test_video.mp4")
+        video_capture = cv2.VideoCapture(self.video_file)
         frame_width = int(video_capture.get(3))
         frame_height = int(video_capture.get(4))
         out = cv2.VideoWriter('output.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))

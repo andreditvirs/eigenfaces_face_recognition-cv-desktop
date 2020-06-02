@@ -91,4 +91,3 @@ if __name__ == '__main__':
     trainer = TrainEigenFaces()
     trainer.capture_training_images()
     trainer.eigen_train_data()
-    print("Tekan 'q' untuk mengakhiri program")
