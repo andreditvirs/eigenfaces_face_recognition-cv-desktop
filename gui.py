@@ -1,16 +1,31 @@
 from tkinter import *
 import os
 
+folder_path = 'D:\\Teknik Informatika\\CV\\Project Akhir\\'
+in_path = folder_path+'dataset\\'
+
+def list_dir():
+    listds = os.listdir(in_path)
+    number_files = len(listds)
+    os.chdir(in_path)
+    arr = os.listdir()
+    return arr
+
 def show_info():
+    os.chdir(folder_path)
     message_txt.delete(0.0, 'end')
     menu = menu_value_choice.get()
+    name = str('"'+tkvar.get()+'"')
     if menu == 1:
+        os.system('python add_eigen.py %s'%name)
+        message_txt.insert(0.0, "Dataset berhasil ditambahkan")        
+    elif menu == 2:
         os.system('python t_eigen.py')
         message_txt.insert(0.0, "Training dataset selesai")
-    elif menu == 2:
+    elif menu == 3:
         os.system('python f_eigen.py')
         message_txt.insert(0.0, "Mengakhiri Webcam")
-    elif menu == 3 :
+    elif menu == 4 :
         video_name = video_file.get()
         if video_name != '':
             os.system('python fv_eigen.py %s'%video_name)
@@ -22,6 +37,13 @@ def show_info():
 
 rootWindow = Tk()
 video_file = StringVar()
+tkvar = StringVar(rootWindow)
+
+mahasiswa = sorted(list_dir())
+tkvar.set('Pilih Mahasiswa')
+
+popupMenu = OptionMenu(rootWindow, tkvar, *mahasiswa)
+Label(rootWindow, text="Pilih Mahasiswa").grid(row=2, column=2)
 
 rootWindow.resizable(height = None, width = None)
 rootWindow.title("Face Recognition")
@@ -30,6 +52,8 @@ welcome_label = Label(rootWindow, text="Aplikasi Pengenalan Wajah\n Mahasiswa 2 
                       font=("arial", 16,"bold"))
 procedure_label = Label(rootWindow, text="Silahkan memilih menu yang diinginkan", fg="gray",
                       font=("arial", 14))
+add_label = Label(rootWindow, text="Untuk menambahkan 5 foto dataset pada \nfolder NRP melalui webcam selama 5 detik", fg="gray",
+                      font=("arial", 10))
 train_label = Label(rootWindow, text="Untuk melakukan training pada dataset \n(output = ekstraksi fitur, grayscale face)", fg="gray",
                       font=("arial", 10))
 webcam_label = Label(rootWindow, text="Untuk melakukan pengenalan wajah \nsesuai ekstraksi fitur dengan webcam", fg="gray",
@@ -45,12 +69,14 @@ video_entry_label = Label(rootWindow, text="Masukkan nama file video disertai fo
 video_entry = Entry(rootWindow, textvariable=video_file) # Untuk masukkan nama video
 
 menu_value_choice = IntVar()
-radio_button_t = Radiobutton(rootWindow, text="Train Dataset", variable=menu_value_choice,
+radio_button_a = Radiobutton(rootWindow, text="Add Dataset", variable=menu_value_choice,
                                font=("arial", 12), value=1)
+radio_button_t = Radiobutton(rootWindow, text="Train Dataset", variable=menu_value_choice,
+                               font=("arial", 12), value=2)
 radio_button_f = Radiobutton(rootWindow, text="Face Recognition (Webcam)", variable=menu_value_choice,
-                              font=("arial", 12), value=2)
-radio_button_fv = Radiobutton(rootWindow, text="Face Recognition (Video File)", variable=menu_value_choice,
                               font=("arial", 12), value=3)
+radio_button_fv = Radiobutton(rootWindow, text="Face Recognition (Video File)", variable=menu_value_choice,
+                              font=("arial", 12), value=4)
 
 message_txt = Text(rootWindow, width=36, height=1, wrap=WORD, fg="blue",
                    font=("arial", 12, "bold"))
@@ -66,21 +92,25 @@ welcome_label.grid(row=1, columnspan=4)
 procedure_label.grid(row=2, columnspan=4)
 
 rootWindow.grid_rowconfigure(3, minsize=20)
-radio_button_t.grid(row=4, column=1, sticky=W)
-train_label.grid(row=5, column=1, sticky=W)
-radio_button_f.grid(row=4, column=2, sticky=W)
-webcam_label.grid(row=5, column=2, sticky=W)
-radio_button_fv.grid(row=4, column=3, sticky=W)
-video_label.grid(row=5, column=3, sticky=W)
-video_entry_label.grid(row=6, column=3, sticky=W)
-video_entry.grid(row=7, column=3, sticky=N)
+radio_button_a.grid(row=4, column=1, sticky=W)
+add_label.grid(row=5, column=1, sticky=W)
+radio_button_t.grid(row=4, column=2, sticky=W)
+train_label.grid(row=5, column=2, sticky=W)
+popupMenu.grid(row=6, column=1)
 
-rootWindow.grid_rowconfigure(8, minsize=20)
-message_label.grid(row=9, columnspan=4)
-message_txt.grid(row=10, columnspan=4, sticky=N, rowspan=1)
+radio_button_f.grid(row=7, column=1, sticky=W)
+webcam_label.grid(row=8, column=1, sticky=W)
+radio_button_fv.grid(row=7, column=2, sticky=W)
+video_label.grid(row=8, column=2, sticky=W)
+video_entry_label.grid(row=9, column=2, sticky=W)
+video_entry.grid(row=10, column=2, sticky=N)
 
 rootWindow.grid_rowconfigure(11, minsize=20)
-lets_see_button.grid(row=12, columnspan=4)
+message_label.grid(row=12, columnspan=4)
+message_txt.grid(row=13, columnspan=4, sticky=N, rowspan=1)
 
-att_label.grid(row=13, columnspan=4)
+rootWindow.grid_rowconfigure(14, minsize=20)
+lets_see_button.grid(row=15, columnspan=4)
+
+att_label.grid(row=16, columnspan=4)
 rootWindow.mainloop()

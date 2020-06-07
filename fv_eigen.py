@@ -24,7 +24,7 @@ class RecogEigenFaces:
                 names[key] = subdir
                 key += 1
         self.names = names 
-        self.model.read(folder_path+'eigen_trained_data.xml')
+        self.model.read(folder_path+'eigen_trained_data.json')
 
     def show_video(self):
         video_capture = cv2.VideoCapture(self.video_file)

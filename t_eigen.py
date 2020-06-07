@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import sys
 import os
+import json
 
 RESIZE_FACTOR = 4
 
@@ -83,11 +84,19 @@ class TrainEigenFaces:
         (imgs, tags) = [np.array(item) for item in [imgs, tags]]
         
         self.model.train(imgs, tags)
-        self.model.save(folder_path+'eigen_trained_data.xml')
+        self.model.save(folder_path+'eigen_trained_data.json')
         print("Training Dataset Selesai")
+        return
+
+    def show_json(self):
+        os.chdir(folder_path)
+        with open('eigen_trained_data.json', 'r') as f:
+            mahasiswa = json.load(f)
+        print("Ini adalah JSON EigenValues : \n" + json.dumps(mahasiswa['opencv_eigenfaces']['eigenvalues'], indent=4))
         return
 
 if __name__ == '__main__':
     trainer = TrainEigenFaces()
     trainer.capture_training_images()
     trainer.eigen_train_data()
+    trainer.show_json()
