@@ -1,3 +1,4 @@
+# Import semua yang dibutuhkan
 import numpy as np
 import cv2
 import sys
