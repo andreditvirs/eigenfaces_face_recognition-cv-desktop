@@ -8,6 +8,7 @@ FREQ_DIV = 15   #frequency divider for capturing training images
 RESIZE_FACTOR = 4
 NUM_TRAINING = 5
 
+# Membuat class untuk fungsi - fungsi agar lebih mudah
 class TrainEigenFaces:
     def __init__(self):
         cascPath = "haarcascade_frontalface_default.xml"
