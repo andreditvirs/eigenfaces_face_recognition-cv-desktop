@@ -1,4 +1,3 @@
-# Inmport semua dipendensi yang diperlukan, ingat menggunakan opencv-contrib-python
 import numpy as np
 import cv2
 import sys
