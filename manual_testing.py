@@ -14,6 +14,7 @@ class RecogEigenFaces:
         cascPath = "haarcascade_frontalface_default.xml"
         self.face_cascade = cv2.CascadeClassifier(cascPath)
         self.out_dir = folder_path+'dataset_haar\\'
+        self.face_name = sys.argv[1]
         self.model = cv2.face.EigenFaceRecognizer_create()
         self.face_names = []
 
@@ -38,12 +39,14 @@ class RecogEigenFaces:
         index = 0
         for (subdirs, dirs, files) in os.walk(testing_path):
             for subdir in dirs:
-                img_path = os.path.join(testing_path, subdir)
+                img_path = os.path.join(testing_path, self.face_name)
                 for fn in os.listdir(img_path):
+                    print("Testing untuk "+fn)
                     path = img_path + '/' + fn
                     frame = cv2.imread(path)
                     inImg = np.array(frame)
                     self.process_image(inImg)
+                    print()
                 index += 1
         return
 

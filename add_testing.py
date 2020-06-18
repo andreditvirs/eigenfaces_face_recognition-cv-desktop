@@ -12,7 +12,7 @@ class TrainEigenFaces:
         cascPath = "haarcascade_frontalface_default.xml"
         self.face_cascade = cv2.CascadeClassifier(cascPath)
         self.face_dir = 'testing'
-        self.face_name = 'andre'
+        self.face_name = sys.argv[1]
         self.path = os.path.join(self.face_dir, self.face_name)
         if not os.path.isdir(self.path):
             os.mkdir(self.path)
@@ -36,6 +36,7 @@ class TrainEigenFaces:
                 return
 
     def process_image(self, inImg):
+        print("hello")
         frame = cv2.flip(inImg,1)
         resized_width, resized_height = (100, 100)        
         if self.count_captures < NUM_TRAINING:

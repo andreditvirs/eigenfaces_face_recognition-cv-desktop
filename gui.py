@@ -2,7 +2,7 @@ from tkinter import *
 import os
 
 folder_path = 'D:\\Teknik Informatika\\CV\\Project Akhir\\'
-in_path = folder_path+'dataset\\'
+in_path = folder_path+'testing\\'
 
 def list_dir():
     listds = os.listdir(in_path)
@@ -15,7 +15,7 @@ def show_info():
     os.chdir(folder_path)
     message_txt.delete(0.0, 'end')
     menu = menu_value_choice.get()
-    # name = str('"'+tkvar.get()+'"')
+    name = str('"'+tkvar.get()+'"')
     if menu == 1:
         testing_name = testing.get()
         os.system('python add_testing.py %s'%testing_name)
@@ -34,7 +34,7 @@ def show_info():
         else:
             message_txt.insert(0.0, "Anda belum memasukkan nama video")
     elif menu == 5:
-        os.system('python manual_testing.py')
+        os.system('python manual_testing.py %s'%name)
         message_txt.insert(0.0, "Hasil ada di command line")
     else:
         message_txt.insert(0.0, "Anda belum memilih salah satu menu")
@@ -42,12 +42,12 @@ def show_info():
 rootWindow = Tk()
 video_file = StringVar()
 testing = StringVar()
-# tkvar = StringVar(rootWindow)
+tkvar = StringVar(rootWindow)
 
-# mahasiswa = sorted(list_dir())
-# tkvar.set('Pilih Mahasiswa')
+mahasiswa = sorted(list_dir())
+tkvar.set('Pilih Testing')
 
-# popupMenu = OptionMenu(rootWindow, tkvar, *mahasiswa)
+popupMenu = OptionMenu(rootWindow, tkvar, *mahasiswa)
 # Label(rootWindow, text="Pilih Mahasiswa").grid(row=2, column=2)
 
 rootWindow.resizable(height = None, width = None)
@@ -117,13 +117,14 @@ video_entry.grid(row=10, column=2, sticky=N)
 
 radio_button_d.grid(row=11, column=1, sticky=W)
 do_label.grid(row=12, column=1, sticky=W)
+popupMenu.grid(row=13, column=1, sticky=N)
 
-rootWindow.grid_rowconfigure(13, minsize=20)
-message_label.grid(row=14, columnspan=4)
-message_txt.grid(row=15, columnspan=4, sticky=N, rowspan=1)
+rootWindow.grid_rowconfigure(14, minsize=20)
+message_label.grid(row=15, columnspan=4)
+message_txt.grid(row=16, columnspan=4, sticky=N, rowspan=1)
 
-rootWindow.grid_rowconfigure(16, minsize=20)
-lets_see_button.grid(row=17, columnspan=4)
+rootWindow.grid_rowconfigure(17, minsize=20)
+lets_see_button.grid(row=18, columnspan=4)
 
-att_label.grid(row=18, columnspan=4)
+att_label.grid(row=19, columnspan=4)
 rootWindow.mainloop()
